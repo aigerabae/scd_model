@@ -64,3 +64,8 @@ for a in Analysis1 Analysis2 Analysis3; do
 done
 nohup bash -c 'for a in Analysis1 Analysis2 Analysis3; do MC_CORES=16 Rscript run_$a.R > log_$a.txt 2>&1; done' &
 ```
+
+6. Comparing results between my run and his:
+```
+Rscript compare_models.R SCD_100rep SCD_All > comparison.txt
+```
