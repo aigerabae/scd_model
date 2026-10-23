@@ -46,6 +46,12 @@ ls Analysis*/ | grep -E "2x5|Model_"
 Rscript -e 'x <- as.data.frame(readxl::read_excel("Analysis1/Model_Analysis1.xlsx", sheet="Model_parameters", col_names=FALSE)); k <- c("Stringency","LambdaRule","FinalAlpha","FinalNumberOfPredictors","FinalTrainingAUC","FinalTrainingMCC"); for (i in which(x[[1]] %in% k)) cat(x[i,1], "=", x[i,2], "\n")'
 ``` 
 All files write as expected and results are largely consistent.  
+Stringency = VeryLow   
+LambdaRule = lambda.min   
+FinalAlpha = 0.3   
+FinalNumberOfPredictors = 15   
+FinalTrainingAUC = 0.91035816035816   
+FinalTrainingMCC = 0.782089198204617   
 
 5. 100 repeats (should take 1-2 hours):
 ```
