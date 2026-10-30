@@ -69,3 +69,24 @@ nohup bash -c 'for a in Analysis1 Analysis2 Analysis3; do MC_CORES=16 Rscript ru
 ```
 Rscript compare_models.R SCD_100rep SCD_All > comparison.txt
 ```
+
+
+
+### Testing his changes (30 october):
+```
+cd /data/ds1825p_I/Projects/SD_001_038_miseq_novaseq_hg19_control_116/vcf/testing_r_code
+for run in A B; do
+  R=$PWD/SCD_v2_2rep_run$run; D=$R/Analysis3
+  mkdir -p $D
+  cp SCD_All/Analysis3/Dataset3.xlsx $D/
+  cp v2_codes/R_Module[1-5]_*.txt $D/
+  for f in $D/*.txt; do sed -i 's/\r$//' "$f"; sed -i "s#D:/A/Data/SCD_All#$R#g" "$f"; done
+  sed -i 's/^n_repeats <- 100 /n_repeats <- 2   /' $D/R_Module1_*.txt
+  sed -i 's/_100x5_/_2x5_/g' $D/R_Module2_*.txt
+  cat $D/R_Module1_*.txt $D/R_Module2_*.txt $D/R_Module3_*.txt $D/R_Module4_*.txt $D/R_Module5_*.txt > $R/run_Analysis3.R
+done
+nohup bash -c 'cd SCD_v2_2rep_runA && MC_CORES=16 Rscript run_Analysis3.R > log_Analysis3.txt 2>&1;
+               cd ../SCD_v2_2rep_runB && MC_CORES=8 Rscript run_Analysis3.R > log_Analysis3.txt 2>&1' &
+Rscript compare_runs.R SCD_v2_2rep_runA/Analysis3/Model_Analysis3.xlsx SCD_v2_2rep_runB/Analysis3/Model_Analysis3.xlsx
+Rscript compare_runs.R SCD_v2_2rep_runA/Analysis3/Model_Analysis3.xlsx SCD_v2_2rep_runB/Analysis3/Model_Analysis3.xlsx > stability_v2_Analysis3.txt
+```
